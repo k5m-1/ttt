@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ko">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tic-Tac-Toe</title>
+    <title>틱택토</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -34,12 +34,19 @@
             margin-top: 20px;
             font-size: 1.2em;
         }
+        button {
+            margin-top: 20px;
+            padding: 10px 20px;
+            font-size: 1em;
+            cursor: pointer;
+        }
     </style>
 </head>
 <body>
-    <h1>Tic-Tac-Toe</h1>
-    <div id="status">Your turn!</div>
+    <h1>틱택토</h1>
+    <div id="status">당신의 차례입니다!</div>
     <div class="board" id="board"></div>
+    <button id="reset">게임 다시 시작</button>
 
     <script>
         const board = Array(9).fill(null);
@@ -54,6 +61,7 @@
 
         const boardElement = document.getElementById('board');
         const statusElement = document.getElementById('status');
+        const resetButton = document.getElementById('reset');
 
         function createBoard() {
             boardElement.innerHTML = '';
@@ -74,32 +82,32 @@
             createBoard();
 
             if (checkWinner()) {
-                statusElement.textContent = 'You win!';
+                statusElement.textContent = '당신이 승리했습니다!';
                 return;
             }
 
             if (board.every(cell => cell)) {
-                statusElement.textContent = 'It\'s a tie!';
+                statusElement.textContent = '비겼습니다!';
                 return;
             }
 
-            statusElement.textContent = 'AI\'s turn...';
+            statusElement.textContent = 'AI의 차례입니다...';
             setTimeout(() => {
                 const bestMove = getBestMove();
                 board[bestMove] = ai;
                 createBoard();
 
                 if (checkWinner()) {
-                    statusElement.textContent = 'AI wins!';
+                    statusElement.textContent = 'AI가 승리했습니다!';
                     return;
                 }
 
                 if (board.every(cell => cell)) {
-                    statusElement.textContent = 'It\'s a tie!';
+                    statusElement.textContent = '비겼습니다!';
                     return;
                 }
 
-                statusElement.textContent = 'Your turn!';
+                statusElement.textContent = '당신의 차례입니다!';
             }, 500);
         }
 
@@ -162,6 +170,12 @@
                 return bestScore;
             }
         }
+
+        resetButton.addEventListener('click', () => {
+            board.fill(null);
+            statusElement.textContent = '당신의 차례입니다!';
+            createBoard();
+        });
 
         createBoard();
     </script>
